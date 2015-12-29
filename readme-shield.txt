@@ -1,11 +1,16 @@
 This document describes a "shield" for a Arduino Pro mini, also supporting a NRF24L01(+),
 a LCD and single or double  relay brick.
 
+The shield is actually not a real shield, but a PCB containing all the nessary connectors
+and wiring to link a Arduino Pro mini, a LCD brick, a NRF24L01(+) brick, a relay brick, 
+the external 5V powersupply, an extra LED and some input/output pins of the Arduino.
+The PCB support several flexible configuration features, which are desbribed hereafter.
+
 Of this shield 2 versions exist, one with the NRF24L01 in parallel with the LCD called 
 "straight" and one with NRF24L01 pointing away from the LCD called "down".
 
 I use this "shield" with several Arduino project, also to befound on Github. Those projects
-contain sketch files and a reference to the PCB and documents here. 
+contain sketch files and a reference to this PCB and documents here after. 
 
 In the map Fritzing-schem-and-PCB the files Pro mini nrf24 lcd relais V1.11 straight and
 down can be found. The program Fritzing was used to draw these PCB's and the files are
@@ -14,20 +19,24 @@ usefull, the other tabs are a mess.
 Also the Fritzing file Arduino Pro mini shield pinciple schem and its JPG can be found. 
 It helps to understand the relation between the components discussed below without the need
 to follow wires on the PCB.
-The PCB was designed so that one or two sided perf board wich copper rings can be used to 
+
+The PCB was designed so that one or two sided perf board with copper rings can be used to 
 create a PCB. All wires on the top layer are just wires to make cross connections. 
 In the design I only use standard, classicle, non SMS components only.
-The PDF output of Fritzing was used to create a single sided PCB for DIY etching. 
+The PDF output section of Fritzing was used to create a single sided PCB for DIY etching. 
 I use 70x100 mm one sided copper clay layer PCB to create 2 PCB of 50*70 at the same time.
-Of course Fritzing can be used to generate Gerber files.
-Together with the files you find 2 JPG, showing you quickly what the top and bottom layer 
+Of course Fritzing can be used to generate Gerber files. 
+
+Together with the files you find a JPG, showing you quickly what the top and bottom layer 
 combined looks like. The brighter yellow is the top layer, the darker yellow the bottom 
 layer.
+
 Regarding DIY etching, my laserprinter doen not produce intensif enough black lines. 
 A local camerashop prints my document on "lustre" photopaper to accomodate the more easy 
 toner transfer, giving me 16 PCB's for 1 dollar. 
 
 In the map Photo's you find pictures of the end result.
+
 
 Overview of aspects of the PCB:
 
@@ -59,6 +68,7 @@ Below I refer to "generic male or female headers". By this I mean a x pins; form
 female; package THT; hole size 1.0mm,0.508mm; pin spacing 0.1in (2.54mm); row single, 
 connector.
 
+
 J1  jumper LCD, 2 pin generic male header. Must be present if the optional LCD is used. Use
 a female 2 pin jumper to feed 5V to the leds in the LCD. If you want to switch off the LCD, 
 use this header for a on-off switch.
@@ -73,23 +83,24 @@ J3  connection NRF24L01(+), 2*4 generic female header. If your application needs
 transmission, insert the optional NRF24L01(+) module. Please note that these modules needs 
 3,3 V power, so a voltage converter or a step down converter must be present, see below.
 
+
 J4  output connector, 5 pin generic female header. The main purpose is to connect a single
 or double relay brick, controlled by A1 and A2. Of couse these pins can also be used for 
 other input or output purposes. Please note the sequence of pin1 (+5V) and pin2 (GND), so 
 buy simmular relay bricks supporting a straight 3 of 4 pin cable. Pin5 is connected to A3 
-and when not in use by extra led or the reset function, is also available for general 
+and when not in use by the extra led or the reset function, is also available for general 
 purposes. 
 
 
 J5  connector for 5V power supply, 3 pin generic male header. Use a 2 or 3 pin generic 
 female header to supply power to this header. Please carefully note the sequence of the 
-pins, pin 1 and 2 is GND, pin 3 is +5V. It is advised to supply 5V or 6V , and maximum 9V 
+pins, pin 1 and 2 is GND, pin 3 is +5V. It is advised to supply 5V to 6V , and maximum 9V 
 because with the allowed 12V the onboard step down converter of the Pro mini PCB becomes 
 extremely hot. 
-Personally I only use 230V to 5V USB type transformers without any instability problems.
+Personally I only use 110-230V to 5V USB type transformers without any instability problems.
  
  
-J6  connector for 5V power supply via USB. Use a available DIP to USB converter PCB, which
+J6  connector for 5V power supply via USB. Use an obtainable DIP to USB converter PCB, which
 can be ordered on Ebay. This allows a micro USB plug (or if you prefer a mini USB) to be 
 used without the need to solder these SMT type of connectors. 
 
@@ -105,6 +116,7 @@ connector is obtainable in HW stores (Assman etc) and on Ebay. Personally I use 
 floppy disc cable (2x17 connector), modified to the desired length. Ask your local PC shop 
 for an old cable. Instruction how to lift a connector can be found on Google. The crimping 
 of the connector I do (slowly) with a bench vise. 
+
 Use jumper jmp4a to control the backlight of the LCD with D6 and PWM in your scetch. 
 Use jumper jmp4b to get full backlight on the LCD.   
 
@@ -117,12 +129,13 @@ the Arduino can be easily removed.
 J13 connector on PCB Pro mini for programming, 6 pin generic male header. Soldered on the 
 side of the PCB and used for loading sketches and Serial IO to a USB port on the PC. I use 
 a FTDI FT232RL converter without any hazzle.
+
 Power to the PCB of the pro mini can also be connected via J13. Connect jmp1b and NOT 
 jpm1a to feed power to the other components. Also do NOT connect power via J5 nor J6.
 However, if you do not connect voltage to the VCC pin of the Pro mini PCB, then you can 
 supply power with J5 or J6 (and jmp3a), but never sypply power via J13 and J5/J6 
 simultanously, this may blow up your Arduino. In this way you still have Serial IO to your 
-PC over USB and a have very stable power supply.
+PC over USB AND a have very stable power supply.
 
 
 R,R+,R- Pull up/down resitor for A0. Connect a 10 KOhm to 470 KOhm resistor between R+ and R
@@ -155,9 +168,22 @@ Please note that port A3 is also directly wired on J4.
 
  
 jmp1a or jpm1b jumper for power via J5/J6 or VCC, discussed above.
-jmp2 auto reset
+
+jmp2 auto reset. If you want to use a reset function in your Arduino, connect jmp2 and use 
+A3 to signal the reset. However, I am not very fond with this solution. Sometimes having 
+jmp2 wired makes it difficult to load sketches in the Arduino, and therefore you have to 
+fall back on the "old fashioned" way of loading sketches by also using the resetbutton. 
+See http://playground.arduino.cc/Main/DisablingAutoResetOnSerialConnection, 
+section How to upload code without auto reset. 
+
+Also connecting jmp2 influences the initial output of Serial.print in the setup section of 
+a sketch, the output disapears.
+So as said, I am not to fond on autoreset.
+
+
 jmp3 led, discussed above.
 jmp4a or jmp4b LCD backlight, discussed above. 
+
 
 5V 3V - 5V connector. The optional NRF24L01(+) module needs 3.3V for power. Therefore a 
 voltage regulator or a step down converter should be used. The standard NRF24L01(+) can be 
@@ -166,17 +192,21 @@ is to high. Use a L78L33 TO-92 voltage regulator and solder this "transistor" in
 upper "5V - 3V" connection points, so starting with the 5V nearest to J11/J12 of the Pro 
 mini PCB. The bold site of the L78L33 must face the J3 connector of the NRF24L01(+). Always
 check the wiringscheme of the regulator you bought.
+
 However if you want to use a NRF24L01+PA+LNA module, which takes 180 mA current, you should 
 use a DC 5V to 3.3V Step-Down converter, for example a Buck AMS1117-3.3 module, which can 
 supply 800 mA current. Solder this mini PCB using the  "5V 3V -" connection points, so 
 starting from the bottom of the PCB. In my case the  "transistor" component of the converter 
 face the J3 connector of the NRF24L01(+).  Always check the wiringscheme of the step down 
 converter you bought.
+
 Both components can be found on Ebay, and looking at the minor price differences it is a 
 good idea to use always the step down converter.
+
 In either case always mount jmp1a.
 In either case a capacitor of 47 uF, tantal or classical, between the C+ C- connection 
-points is recommended. Please note that these connection points are 2 times present. 
+points is recommended. Please note that these connection points are 2 times present,
+one also for capacitor with axial leads.
 
 Have fun.
 
